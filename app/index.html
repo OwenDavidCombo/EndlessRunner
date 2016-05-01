@@ -26,7 +26,10 @@
 
 
     <div id="main" class="container">
-    <div ng-include="'views/newGame.html'" ng-controller="zombieKongController"></div>
+        <div data-ng-init="init()"  ng-controller="zombieKongController">
+            <h1>{{name}}</h1>
+            <canvas id="demoCanvas"></canvas>
+        </div>
     </div>
 
 
