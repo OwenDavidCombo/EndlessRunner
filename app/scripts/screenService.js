@@ -15,6 +15,8 @@
        
     }
     
+    
+    //Set Http Cookie
     var setCookie = function setCookie(cname, cvalue, exdays) {
           var d = new Date(), expires = "";
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -22,6 +24,7 @@
         document.cookie = cname + "=" + cvalue + "; " + expires;
     }
 
+    //Get Http Cookie
     var getCookie = function getCookie(cname) {
             var name = cname + "=", ca = document.cookie.split(';'), c = "", i = "";
         for (i = 0; i < ca.length; i = i + 1) {
@@ -36,6 +39,7 @@
         return "";
     }
     
+    //Check Sound Volume. Integers go from 0 to 1
     var checkVolume = function checkVolume() {
         var volume = getCookie("volume");
         if (volume !== "") {
@@ -44,7 +48,7 @@
     }
     
  
-    
+    //Play Sound.
    var clicksound = function clicksound(){
            // if initializeDefaultPlugins returns false, we cannot play sound in this browser           
            createjs.Sound.registerSound("sounds/test.mp3", "mysoundID",1);
@@ -53,10 +57,6 @@
              instance.volume = checkVolume();
     }
     
-   var volume = function volume(){
-       return 0;
-       
-   }
     
     //sets resolution and size on canvas passed and returns canvas
     var setCanvasDPI= function(canvas,width,height){
