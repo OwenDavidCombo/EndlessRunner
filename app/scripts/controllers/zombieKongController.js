@@ -18,6 +18,7 @@
        canvas = screenService.setCanvasDPI(canvas,cWidth,cHeight);//set appropiate canvas resolution
        context =canvas.getContext("2d");
        stage = new createjs.Stage("demoCanvas");  
+       stage.enableMouseOver(10);
        createjs.Ticker.setFPS(fps); //set our frameRate;
        createjs.Ticker.addEventListener("tick", render);//call our render loop on each tick
        setupManifest();//set up our assets array
@@ -37,17 +38,27 @@
         canvas.style.backgroundColor = 'rgba(223, 244, 215, 1)';
         stage.addChild(ZombieEye);
         stage.addChild(ZombieKongMenu);
+        stage.addChild(runButton);
          createjs.Tween.get(ZombieEye, { loop: true })//animate eyeball
-         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
-         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
-         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
-         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
-         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
-         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
-         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
-         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
-         .to({ rotation:0}, 1000)//move to center then alpha out
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
+         .to({ rotation:0}, 1000)
+         .to({ rotation:0}, 10000)//move to center then alpha out
         
+        createjs.Tween.get(runButton, { loop: true })//animate runbutton
+          .to({ scaleX: 1.1   }, 500, createjs.Ease.getPowInOut(4))
+          .to({ scaleX: 1   }, 500, createjs.Ease.getPowInOut(4))
+          
+         createjs.Tween.get(runButton, { loop: true })//animate runbutton
+          .to({ scaleY: 1.1   }, 500, createjs.Ease.getPowInOut(4))
+          .to({ scaleY: 1   }, 500, createjs.Ease.getPowInOut(4))
+         
     }
     
     
@@ -79,6 +90,14 @@
             ZombieEye.regY=ZombieEye.getBounds().height/2;
             ZombieEye.x = (cWidth*(474/800))+ZombieEye.regX//position our logo centre x
             ZombieEye.y = (cHeight*(106/600))+ZombieEye.regY; //106
+        }else if(event.item.id=="runButton"){
+            runButton=new createjs.Bitmap(event.result); 
+            runButton.x = 30;
+            runButton.y = cHeight-((runButton.getBounds().height)+30);
+            runButton.cursor="pointer";
+            runButton.addEventListener("click", function(){
+                runGame();
+            })
         }
     }
     
@@ -94,7 +113,11 @@
         {
             src:  "images/ZombieEye2.png",
             id: "ZombieEye"
-        }
+        },
+        {
+            src:  "images/runButton.png",
+            id: "runButton"
+         }
         ];
     }
        
@@ -120,5 +143,5 @@
     var fps = 30;  //Frames Per Second. Lower this for analysis during development
     var player;
     var screenService; //Attach injectable screenService as a global lib
-    var SplashLogo,ZombieKongMenu,ZombieEye;
+    var SplashLogo,ZombieKongMenu,ZombieEye,runButton;
 })();
