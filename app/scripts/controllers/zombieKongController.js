@@ -33,12 +33,22 @@
         }
     }
     
+    runGame = function(){
+        stage.removeAllChildren();
+        canvas.style.backgroundColor = 'rgba(223, 44, 43, 0.8)';
+    }
+    
     runMenuScreen=function(){
+        pauseRendering=true;
         stage.removeChild(SplashLogo);
-        canvas.style.backgroundColor = 'rgba(223, 244, 215, 1)';
         stage.addChild(ZombieEye);
         stage.addChild(ZombieKongMenu);
         stage.addChild(runButton);
+        setTimeout(function(){
+            canvas.style.backgroundColor = 'rgba(223, 244, 215, 1)';
+            pauseRendering=false;
+        },500);
+        
          createjs.Tween.get(ZombieEye, { loop: true })//animate eyeball
          .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
          .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
@@ -50,7 +60,7 @@
          .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
          .to({ rotation:0}, 1000)
          .to({ rotation:0}, 10000)//move to center then alpha out
-        
+         
         createjs.Tween.get(runButton, { loop: true })//animate runbutton
           .to({ scaleX: 1.1   }, 500, createjs.Ease.getPowInOut(4))
           .to({ scaleX: 1   }, 500, createjs.Ease.getPowInOut(4))
