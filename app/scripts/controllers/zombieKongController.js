@@ -31,12 +31,67 @@
         if(!pauseRendering){ 
             stage.update();
         }
+        if(runloop){
+            grid.x = (worldx * .45) % (cWidth/8); // horizontal
+            grid.y = (worldy * .45) % (cHeight/6);   // vertical
+            worldx+=-5;
+        }
     }
-    
+
+    var worldx=1;
+    var worldy=1;
     runGame = function(){
         stage.removeAllChildren();
         canvas.style.backgroundColor = 'rgba(223, 44, 43, 0.8)';
+        grid = createBgGrid(8,6);
+        runloop=true;
+        stage.addChild(grid);
     }
+    
+    createBgGrid = function(numX, numY) {
+        var w=cWidth;
+        var h=cHeight;
+        var grid = new createjs.Container();
+        grid.snapToPixel = true;
+        // calculating the distance between
+        // the grid-lines
+        var gw = w/numX;
+        var gh = h/numY;
+        // drawing the vertical line
+        var verticalLine = new createjs.Graphics();
+        verticalLine.beginFill(createjs.Graphics.getRGB(101, 60, 176));
+        verticalLine.drawRect(0,0,gw * 0.02,gh*(numY+2));
+        var vs;
+        // placing the vertical lines:
+        // we're placing 1 more than requested
+        // to have seamless scrolling later
+        for ( var c = -1; c < numX+1; c++) {
+            vs = new createjs.Shape(verticalLine);
+            vs.snapToPixel = true;
+            vs.x = c * gw;
+            vs.y = -gh;
+            grid.addChild(vs);
+        }
+        // drawing a horizontal line
+        var horizontalLine = new createjs.Graphics();
+        horizontalLine.beginFill(createjs.Graphics.getRGB(101, 60, 176));
+        horizontalLine.drawRect(0,0,gw*(numX+1),gh * 0.02);
+        var hs;
+        // placing the horizontal lines:
+        // we're placing 1 more than requested
+        // to have seamless scrolling later
+        for ( c = -1; c < numY+1; c++ ) {
+            hs = new createjs.Shape(horizontalLine);
+            hs.snapToPixel = true;
+            hs.x = 0;
+            hs.y = c * gh;
+            grid.addChild(hs);
+        }
+
+        // return the grid-object
+        return grid;
+    }
+
     
     runMenuScreen=function(){
         pauseRendering=true;
@@ -153,5 +208,6 @@
     var fps = 30;  //Frames Per Second. Lower this for analysis during development
     var player;
     var screenService; //Attach injectable screenService as a global lib
-    var SplashLogo,ZombieKongMenu,ZombieEye,runButton;
+    var SplashLogo,ZombieKongMenu,ZombieEye,runButton,grid;
+    var runloop=false;
 })();
