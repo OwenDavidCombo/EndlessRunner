@@ -35,6 +35,7 @@
     runMenuScreen=function(){
         stage.removeChild(SplashLogo);
         canvas.style.backgroundColor = 'rgba(223, 244, 215, 1)';
+        stage.addChild(ZombieKong);
     }
     
     
@@ -51,18 +52,25 @@
     }
     
     handleFileLoad = function(event){
-        if(event.item.id="SplashLogo"){
+        if(event.item.id=="SplashLogo"){
             SplashLogo=new createjs.Bitmap(event.result); 
             SplashLogo.x = ((cWidth-SplashLogo.getBounds().width)/2)//position our logo centre x
             stage.addChild(SplashLogo);
             runSplashscreen();
-        }//end if
+        }else if(event.item.id=="ZombieKong"){
+            ZombieKong=new createjs.Bitmap(event.result); 
+            ZombieKong.x = ((cWidth-ZombieKong.getBounds().width)/2)//position our logo centre x
+        }
     }
     
     function setupManifest() {//code from http://code.tutsplus.com/tutorials/using-createjs-preloadjs-soundjs-and-tweenjs--net-36292
         manifest = [{
             src:  "images/SplashLogoFull.png",
             id: "SplashLogo"
+        },
+        {
+            src:  "images/ZombieKong.png",
+            id: "ZombieKong"
         }
         ];
     }
@@ -89,5 +97,5 @@
     var fps = 30;  //Frames Per Second. Lower this for analysis during development
     var player;
     var screenService; //Attach injectable screenService as a global lib
-    var SplashLogo;
+    var SplashLogo,ZombieKong;
 })();
