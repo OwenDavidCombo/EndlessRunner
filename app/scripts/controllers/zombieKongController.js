@@ -94,16 +94,14 @@
 
     
     runMenuScreen=function(){
-        pauseRendering=true;
+        
         stage.removeChild(SplashLogo);
+        stage.update();
+        canvas.style.backgroundColor = 'rgba(223, 244, 215, 1)';
         stage.addChild(ZombieEye);
         stage.addChild(ZombieKongMenu);
         stage.addChild(runButton);
-        setTimeout(function(){
-            canvas.style.backgroundColor = 'rgba(223, 244, 215, 1)';
-            pauseRendering=false;
-        },500);
-        
+      
          createjs.Tween.get(ZombieEye, { loop: true })//animate eyeball
          .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
          .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
@@ -142,20 +140,24 @@
     
     handleFileLoad = function(event){
         if(event.item.id=="SplashLogo"){
+            numberResourcesLoaded+=1;
             SplashLogo=new createjs.Bitmap(event.result); 
             SplashLogo.x = ((cWidth-SplashLogo.getBounds().width)/2)//position our logo centre x
             stage.addChild(SplashLogo);
             runSplashscreen();
         }else if(event.item.id=="ZombieKongMenu"){
+            numberResourcesLoaded+=1;
             ZombieKongMenu=new createjs.Bitmap(event.result); 
             ZombieKongMenu.x = ((cWidth-ZombieKongMenu.getBounds().width)/2)//position our logo centre x
         }else if(event.item.id=="ZombieEye"){
+            numberResourcesLoaded+=1;
             ZombieEye=new createjs.Bitmap(event.result); 
             ZombieEye.regX=ZombieEye.getBounds().width/2;
             ZombieEye.regY=ZombieEye.getBounds().height/2;
             ZombieEye.x = (cWidth*(474/800))+ZombieEye.regX//position our logo centre x
             ZombieEye.y = (cHeight*(106/600))+ZombieEye.regY; //106
         }else if(event.item.id=="runButton"){
+            numberResourcesLoaded+=1;
             runButton=new createjs.Bitmap(event.result); 
             runButton.x = 30;
             runButton.y = cHeight-((runButton.getBounds().height)+30);
@@ -164,8 +166,19 @@
                 runGame();
             })
         }
+        
+        if(numberResourcesLoaded==manifest.length){//all assets loaded;
+            canvas.addEventListener("click",skipIntro);
+          
+        }
     }
     
+    skipIntro=function(event){    
+         createjs.Tween.removeAllTweens();
+         canvas.removeEventListener("click",skipIntro);
+         runMenuScreen();
+    }
+      
     function setupManifest() {//code from http://code.tutsplus.com/tutorials/using-createjs-preloadjs-soundjs-and-tweenjs--net-36292
         manifest = [{
             src:  "images/SplashLogoFull.png",
@@ -210,4 +223,5 @@
     var screenService; //Attach injectable screenService as a global lib
     var SplashLogo,ZombieKongMenu,ZombieEye,runButton,grid;
     var runloop=false;
+    var numberResourcesLoaded=0;
 })();
