@@ -133,31 +133,27 @@
             .call(runMenuScreen);  
     }
     
-    loadComplete =function(){   
-        //stage.update();
+    loadComplete =function(){//when preload has finished loading assets allow skipSplash screen on click
+        canvas.addEventListener("click",skipIntro);
         pauseRendering=false;
     }
     
     handleFileLoad = function(event){
         if(event.item.id=="SplashLogo"){
-            numberResourcesLoaded+=1;
             SplashLogo=new createjs.Bitmap(event.result); 
             SplashLogo.x = ((cWidth-SplashLogo.getBounds().width)/2)//position our logo centre x
             stage.addChild(SplashLogo);
             runSplashscreen();
         }else if(event.item.id=="ZombieKongMenu"){
-            numberResourcesLoaded+=1;
             ZombieKongMenu=new createjs.Bitmap(event.result); 
             ZombieKongMenu.x = ((cWidth-ZombieKongMenu.getBounds().width)/2)//position our logo centre x
         }else if(event.item.id=="ZombieEye"){
-            numberResourcesLoaded+=1;
             ZombieEye=new createjs.Bitmap(event.result); 
             ZombieEye.regX=ZombieEye.getBounds().width/2;
             ZombieEye.regY=ZombieEye.getBounds().height/2;
             ZombieEye.x = (cWidth*(474/800))+ZombieEye.regX//position our logo centre x
             ZombieEye.y = (cHeight*(106/600))+ZombieEye.regY; //106
         }else if(event.item.id=="runButton"){
-            numberResourcesLoaded+=1;
             runButton=new createjs.Bitmap(event.result); 
             runButton.x = 30;
             runButton.y = cHeight-((runButton.getBounds().height)+30);
@@ -165,11 +161,6 @@
             runButton.addEventListener("click", function(){
                 runGame();
             })
-        }
-        
-        if(numberResourcesLoaded==manifest.length){//all assets loaded;
-            canvas.addEventListener("click",skipIntro);
-          
         }
     }
     
@@ -223,5 +214,5 @@
     var screenService; //Attach injectable screenService as a global lib
     var SplashLogo,ZombieKongMenu,ZombieEye,runButton,grid;
     var runloop=false;
-    var numberResourcesLoaded=0;
+
 })();
