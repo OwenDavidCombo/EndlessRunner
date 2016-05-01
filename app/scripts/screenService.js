@@ -35,7 +35,7 @@
         }
         return "";
     }
-
+    
     var checkVolume = function checkVolume() {
         var volume = getCookie("volume");
         if (volume !== "") {
