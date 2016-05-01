@@ -48,7 +48,7 @@
         stage.addChild(grid);
     }
     
-    createBgGrid = function(numX, numY) {
+    createBgGrid = function(numX, numY) {//taken from tutorial: http://indiegamr.com/retro-style-platform-runner-game-for-mobile-with-easeljs-part-3-adding-movement-more-collision/
         var w=cWidth;
         var h=cHeight;
         var grid = new createjs.Container();
