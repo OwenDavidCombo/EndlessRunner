@@ -1,0 +1,97 @@
+Endless Runner Game
+
+-1 touch game one action
+
+-Requirements:
+
+
+Javascript:
+-Screenservice
+functions David:
+    addSound(pathOfSoundFile, aNameToRegisterSoundAs, optionalExtras)
+    getSound(nameYouUsedToRegisterSound) ->returns sound instance
+    playSound(instance) ->plays a sound instance
+    adjustVolume(SoundInstance, int volumeToSetInstanceToo)
+    setDPIOfScreen();
+    get/set cookie();
+    
+-GameRunner.js   
+
+-Globally declare - stage, canvas, canvasWidth,canvasHeight, playerSprite
+
+-All assets that we are loading should be set by screenWidth,canvasHeight
+To allow for easy scaling
+
+
+init() - function - sets the global variables;
+
+splashscreen()- displays welcome screen and disappers
+-- in here we should use Preloader.js, SoundJS
+            -CreateJS library for loading assets
+            
+    Optional spashscreen - loading bar? shows loading progress?
+    Spinning icon?
+    
+startGame() - function that runs gameRunner game
+-Requirements
+    Sprite for our player that allows for "jump" action on key up
+    Timer at top showing score - further you run == higher score
+    Hitmarker/ collision detection between our player sprite and obstacles
+    Sidescrolling obstacles-
+            -Rolling barrel objects should be generated out of screen bounds on right
+            and move twoards player on left.
+            -Must be generated in an appropiate manner
+            
+    Difficulty-
+        Barrel xVelocity should increase over time
+        1 hit dead
+
+endGamePopup() -function shows final score. Shows if it is a new HighScore!
+                -"Try Again" button
+                -"Menu" button
+                -appears as popup over startGame screen
+                
+                
+Design:
+
+What era:
+What style?: aliens? monsters? zombies?
+What obstacles? = Rolling Barrels and Zombies
+
+Assests Needed:
+
+Sounds:
+    GameRunning background sound:
+    Sounds on click button:
+        OPtional sounds if you feel confident:
+                        Rolling barrels sound that increases as it comes closer to the player?
+    
+Player Sprite: 
+            Frames for running:
+            Frames for jumping:
+                -Play sound on jump
+    
+Barrel sprites: 
+        Rolling animation:
+        
+Splashscreen sprite:
+        Logo that zooms in
+
+Menu:
+    Button for volume,start,highscore
+    
+Background Image for the game:
+    This should be a wide image that continously scrolls past the player to give the effect of movement
+
+
+Research:
+
+How to reduce and increase the volume of a "running" SoundJS file?
+Correct way to display sidescrolling background?
+    -One big image
+    -several full screen size "tile" images that fit together perfectly
+        Randomly choose next tile to display?
+        
+        
+
+
