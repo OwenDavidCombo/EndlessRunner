@@ -35,8 +35,21 @@
     runMenuScreen=function(){
         stage.removeChild(SplashLogo);
         canvas.style.backgroundColor = 'rgba(223, 244, 215, 1)';
-        stage.addChild(ZombieKong);
+        stage.addChild(ZombieEye);
+        stage.addChild(ZombieKongMenu);
+         createjs.Tween.get(ZombieEye, { loop: true })//animate eyeball
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
+         .to({ rotation: Math.random() * (360)   }, Math.random() * (2000), createjs.Ease.getPowInOut(4))
+         .to({ rotation:0}, 1000)//move to center then alpha out
+        
     }
+    
     
     
     runSplashscreen =function(){//display Splashscreen. PreloadJs to load game assets
@@ -57,9 +70,15 @@
             SplashLogo.x = ((cWidth-SplashLogo.getBounds().width)/2)//position our logo centre x
             stage.addChild(SplashLogo);
             runSplashscreen();
-        }else if(event.item.id=="ZombieKong"){
-            ZombieKong=new createjs.Bitmap(event.result); 
-            ZombieKong.x = ((cWidth-ZombieKong.getBounds().width)/2)//position our logo centre x
+        }else if(event.item.id=="ZombieKongMenu"){
+            ZombieKongMenu=new createjs.Bitmap(event.result); 
+            ZombieKongMenu.x = ((cWidth-ZombieKongMenu.getBounds().width)/2)//position our logo centre x
+        }else if(event.item.id=="ZombieEye"){
+            ZombieEye=new createjs.Bitmap(event.result); 
+            ZombieEye.regX=ZombieEye.getBounds().width/2;
+            ZombieEye.regY=ZombieEye.getBounds().height/2;
+            ZombieEye.x = (cWidth*(474/800))+ZombieEye.regX//position our logo centre x
+            ZombieEye.y = (cHeight*(106/600))+ZombieEye.regY; //106
         }
     }
     
@@ -69,8 +88,12 @@
             id: "SplashLogo"
         },
         {
-            src:  "images/ZombieKong.png",
-            id: "ZombieKong"
+            src:  "images/ZombieKongMenu.png",
+            id: "ZombieKongMenu"
+        },
+        {
+            src:  "images/ZombieEye2.png",
+            id: "ZombieEye"
         }
         ];
     }
@@ -97,5 +120,5 @@
     var fps = 30;  //Frames Per Second. Lower this for analysis during development
     var player;
     var screenService; //Attach injectable screenService as a global lib
-    var SplashLogo,ZombieKong;
+    var SplashLogo,ZombieKongMenu,ZombieEye;
 })();
