@@ -47,6 +47,23 @@
         runloop=true;
         stage.addChild(grid);
         stage.addChild(player)
+        document.addEventListener("keydown",jumpChicken)
+    }
+    
+    jumpChicken=function(){//jump the chicken
+     if (event.which == 38 || event.keyCode == 38) {
+         if(!isMidJump){
+               isMidJump=true
+               player.gotoAndPlay("stand")
+               createjs.Tween.get(player, { loop: false })
+                .to({ y:player.getTransformedBounds().y-100}, 600, createjs.Ease.getPowOut(4))
+                .to({ y:(cHeight*(4/5))-player.getBounds().height}, 600, createjs.Ease.getPowIn(4))
+               .call(function(){
+                    player.gotoAndPlay("runRight")
+                    isMidJump=false;
+               })
+         }//end isMidJump
+       }  
     }
     
     createBgGrid = function(numX, numY) {//taken from tutorial: http://indiegamr.com/retro-style-platform-runner-game-for-mobile-with-easeljs-part-3-adding-movement-more-collision/
@@ -250,5 +267,6 @@
     var screenService; //Attach injectable screenService as a global lib
     var SplashLogo,ZombieKongMenu,ZombieEye,runButton,grid,chickenStraight,chickenRight,chickenLeft,chickenSprite;
     var runloop=false;
+    var isMidJump=false;
 
 })();
