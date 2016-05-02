@@ -130,9 +130,21 @@
         stage.removeChild(SplashLogo);
         stage.update();
         canvas.style.backgroundColor = 'rgba(223, 244, 215, 1)';
+       var graphics=new createjs.Graphics().beginBitmapFill(preload.getResult("background"),'repeat').drawRect(0,0,canvas.width,canvas.height);
+        back = new createjs.Shape(graphics);
+        back.x = 0;back.y = 0;
+        grid = createBgGrid(8,6);
+        runloop=true;
+        stage.addChild(back);
+        stage.addChild(rect);
+        stage.addChild(grid);
+        stage.addChild(player);
+        
         stage.addChild(ZombieEye);
         stage.addChild(ZombieKongMenu);
+        stage.addChild(optionsButton);
         stage.addChild(runButton);
+        
         document.addEventListener("keydown",enterPressed);
                                 
          createjs.Tween.get(ZombieEye, { loop: true })//animate eyeball
@@ -152,6 +164,14 @@
           .to({ scaleX: 1   }, 500, createjs.Ease.getPowInOut(4))
           
          createjs.Tween.get(runButton, { loop: true })//animate runbutton
+          .to({ scaleY: 1.1   }, 500, createjs.Ease.getPowInOut(4))
+          .to({ scaleY: 1   }, 500, createjs.Ease.getPowInOut(4))
+         
+          createjs.Tween.get(optionsButton, { loop: true })//animate runbutton
+          .to({ scaleX: 1.1   }, 500, createjs.Ease.getPowInOut(4))
+          .to({ scaleX: 1   }, 500, createjs.Ease.getPowInOut(4))
+          
+         createjs.Tween.get(optionsButton, { loop: true })//animate runbutton
           .to({ scaleY: 1.1   }, 500, createjs.Ease.getPowInOut(4))
           .to({ scaleY: 1   }, 500, createjs.Ease.getPowInOut(4))
          
@@ -214,6 +234,12 @@
             runButton.addEventListener("click", function(){
                 runGame();
             })
+        }else if(event.item.id=="optionsButton"){
+            optionsButton=new createjs.Bitmap(event.result);
+            optionsButton.x = 20;
+            optionsButton.y = cHeight-((optionsButton.getBounds().height)+150);
+            optionsButton.cursor="pointer";
+            
         }
     }
     
@@ -239,6 +265,10 @@
         {
             src:  "images/runButton.png",
             id: "runButton"
+         },
+         {
+            src:  "images/optionsButton.png",
+            id: "optionsButton"
          },
          {
             src:  "images/chickenLeft.png",
