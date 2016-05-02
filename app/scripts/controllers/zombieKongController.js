@@ -46,6 +46,7 @@
         grid = createBgGrid(8,6);
         runloop=true;
         stage.addChild(grid);
+        stage.addChild(player)
     }
     
     createBgGrid = function(numX, numY) {//taken from tutorial: http://indiegamr.com/retro-style-platform-runner-game-for-mobile-with-easeljs-part-3-adding-movement-more-collision/
@@ -92,16 +93,23 @@
         return grid;
     }
 
+    enterPressed=function(event){//if user presses enter then start
+        if (event.which == 13 || event.keyCode == 13) {
+            document.removeEventListener("keydown",enterPressed)
+            runGame();
+        }
+    }
+    
     
     runMenuScreen=function(){
-        
         stage.removeChild(SplashLogo);
         stage.update();
         canvas.style.backgroundColor = 'rgba(223, 244, 215, 1)';
         stage.addChild(ZombieEye);
         stage.addChild(ZombieKongMenu);
         stage.addChild(runButton);
-      
+        document.addEventListener("keydown",enterPressed);
+                                
          createjs.Tween.get(ZombieEye, { loop: true })//animate eyeball
          .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
          .to({ rotation: Math.random() * (360)   }, Math.random() * (1500) + 500, createjs.Ease.getPowInOut(4))
@@ -136,6 +144,22 @@
     loadComplete =function(){//when preload has finished loading assets allow skipSplash screen on click
         canvas.addEventListener("click",skipIntro);
         pauseRendering=false;
+        
+        var data = {
+                images: [preload.getResult("chickenRight"),preload.getResult("chickenStraight"),preload.getResult("chickenLeft"),preload.getResult("chickenStraight")],
+                frames: {width:200,height:150},
+                animations: {
+                    stand:0,
+                    runRight:[0,3,"front",5/fps],
+                    back:[1,1,"back"],//was 1,1
+                    speed:10
+                }
+            };
+            var chickenSprite = new createjs.SpriteSheet(data);
+            player = new createjs.Sprite(chickenSprite, "runRight");
+            player.frequency=0.1;
+            player.x=30;
+            player.y=(cHeight*(4/5))-player.getBounds().height;
     }
     
     handleFileLoad = function(event){
@@ -186,6 +210,18 @@
         {
             src:  "images/runButton.png",
             id: "runButton"
+         },
+         {
+            src:  "images/chickenLeft.png",
+            id: "chickenLeft"
+         },
+         {
+            src:  "images/chickenRight.png",
+            id: "chickenRight"
+         },
+         {
+            src:  "images/chickenStraight.png",
+            id: "chickenStraight"
          }
         ];
     }
@@ -212,7 +248,7 @@
     var fps = 30;  //Frames Per Second. Lower this for analysis during development
     var player;
     var screenService; //Attach injectable screenService as a global lib
-    var SplashLogo,ZombieKongMenu,ZombieEye,runButton,grid;
+    var SplashLogo,ZombieKongMenu,ZombieEye,runButton,grid,chickenStraight,chickenRight,chickenLeft,chickenSprite;
     var runloop=false;
 
 })();
