@@ -66,7 +66,7 @@
                player.gotoAndPlay("stand")
                createjs.Tween.get(player, { loop: false })
                 .to({ y:player.getTransformedBounds().y-100}, 600, createjs.Ease.getPowOut(4))
-                .to({ y:(cHeight*(4/5))-player.getBounds().height}, 600, createjs.Ease.getPowIn(4))
+                .to({ y:(cHeight*(6/5))-player.getBounds().height}, 600, createjs.Ease.getPowIn(4))
                .call(function(){
                     player.gotoAndPlay("runRight")
                     isMidJump=false;
@@ -83,16 +83,15 @@
         // calculating the distance between
         // the grid-lines
         var gw = w/numX;
-        var gh = h/numY;
+        var gh = h/numY+10;
         // drawing the vertical line
         var verticalLine = new createjs.Graphics();
-        verticalLine.beginFill(createjs.Graphics.getRGB(0, 0, -0));
-        verticalLine.drawRect(0,0,gw * 0.02,gh*(numY+2));
+       
         var vs;
         // placing the vertical lines:
         // we're placing 1 more than requested
         // to have seamless scrolling later
-        for ( var c = -1; c < numX+1; c++) {
+        for ( var c = 0; c < numX+3; c++) {
             vs = new createjs.Shape(verticalLine);
             vs.snapToPixel = true;
             vs.x = c * gw;
@@ -101,20 +100,19 @@
         }
         // drawing a horizontal line
         var horizontalLine = new createjs.Graphics();
-        horizontalLine.beginFill(createjs.Graphics.getRGB(0, 0, 0));
-        horizontalLine.drawRect(0,0,gw*(numX+1),gh * 0.02);
+        
         var hs;
         // placing the horizontal lines:
         // we're placing 1 more than requested
         // to have seamless scrolling later
-        for ( c = -1; c < numY+1; c++ ) {
+        for ( c = -1; c < numY+3; c++ ) {
             hs = new createjs.Shape(horizontalLine);
             hs.snapToPixel = true;
             hs.x = 0;
             hs.y = c * gh;
             grid.addChild(hs);
         }
-        graphics = new createjs.Graphics().beginBitmapFill(preload.getResult("path")).drawRect(0, gh*4, gw*(numX+1), gh);//create the path
+        graphics = new createjs.Graphics().beginBitmapFill(preload.getResult("path")).drawRect(0, gh*6, gw*(numX+3), gh);//create the path
         rect = new createjs.Shape(graphics);
         return grid;
     }
@@ -186,7 +184,7 @@
             player = new createjs.Sprite(chickenSprite, "runRight");
             player.frequency=0.1;
             player.x=30;
-            player.y=(cHeight*(4/5))-player.getBounds().height;
+            player.y=(cHeight*(6/5))-player.getBounds().height;
     }
     
     handleFileLoad = function(event){
