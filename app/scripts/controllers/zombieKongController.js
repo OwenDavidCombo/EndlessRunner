@@ -167,7 +167,7 @@
           .to({ scaleY: 1.1   }, 500, createjs.Ease.getPowInOut(4))
           .to({ scaleY: 1   }, 500, createjs.Ease.getPowInOut(4))
          
-          createjs.Tween.get(optionsButton, { loop: true })//animate runbutton
+         createjs.Tween.get(optionsButton, { loop: true })//animate runbutton
           .to({ scaleX: 1.1   }, 500, createjs.Ease.getPowInOut(4))
           .to({ scaleX: 1   }, 500, createjs.Ease.getPowInOut(4))
           
@@ -175,6 +175,7 @@
           .to({ scaleY: 1.1   }, 500, createjs.Ease.getPowInOut(4))
           .to({ scaleY: 1   }, 500, createjs.Ease.getPowInOut(4))
          
+        
     }
     
     
@@ -184,6 +185,12 @@
             .to({ y:((cHeight-SplashLogo.getBounds().height)/2)}, 2000, createjs.Ease.getPowInOut(4))
             .to({ alpha:0, visible:false}, 2000)//move to center then alpha out
             .call(runMenuScreen);  
+    }
+    
+    runOptionsMenu =function(){
+        stage.removeChild(runButton);
+        stage.removeChild(optionsButton);
+        
     }
     
     loadComplete =function(){//when preload has finished loading assets allow skipSplash screen on click
@@ -229,7 +236,7 @@
         }else if(event.item.id=="runButton"){
             runButton=new createjs.Bitmap(event.result); 
             runButton.x = 30;
-            runButton.y = cHeight-((runButton.getBounds().height)+30);
+            runButton.y = cHeight-((runButton.getBounds().height)+110);
             runButton.cursor="pointer";
             runButton.addEventListener("click", function(){
                 runGame();
@@ -237,9 +244,11 @@
         }else if(event.item.id=="optionsButton"){
             optionsButton=new createjs.Bitmap(event.result);
             optionsButton.x = 20;
-            optionsButton.y = cHeight-((optionsButton.getBounds().height)+150);
+            optionsButton.y = cHeight-((optionsButton.getBounds().height)+10);
             optionsButton.cursor="pointer";
-            
+            optionsButton.addEventListener("click", function(){
+                runOptionsMenu();
+            })
         }
     }
     
