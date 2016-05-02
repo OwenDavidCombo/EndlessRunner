@@ -197,13 +197,17 @@
             runSplashscreen();
         }else if(event.item.id=="ZombieKongMenu"){
             ZombieKongMenu=new createjs.Bitmap(event.result); 
-            ZombieKongMenu.x = ((cWidth-ZombieKongMenu.getBounds().width)/2)//position our logo centre x
+            
+            ZombieKongMenu.scaleX =1.4;
+            ZombieKongMenu.scaleY =1.3;
         }else if(event.item.id=="ZombieEye"){
             ZombieEye=new createjs.Bitmap(event.result); 
             ZombieEye.regX=ZombieEye.getBounds().width/2;
             ZombieEye.regY=ZombieEye.getBounds().height/2;
-            ZombieEye.x = (cWidth*(474/800))+ZombieEye.regX//position our logo centre x
-            ZombieEye.y = (cHeight*(106/600))+ZombieEye.regY; //106
+            ZombieEye.x = cWidth-0;
+            ZombieEye.y = 260 //106
+            ZombieEye.scaleX =1.4;
+            ZombieEye.scaleY =1.3;
         }else if(event.item.id=="runButton"){
             runButton=new createjs.Bitmap(event.result); 
             runButton.x = 30;
