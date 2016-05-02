@@ -114,11 +114,11 @@
             hs.y = c * gh;
             grid.addChild(hs);
         }
-        graphics = new createjs.Graphics().beginBitmapFill(preload.getResult("path")).drawRect(0, gh*4, gw*(numX+1), gh);
+        graphics = new createjs.Graphics().beginBitmapFill(preload.getResult("path")).drawRect(0, gh*4, gw*(numX+1), gh);//create the path
         rect = new createjs.Shape(graphics);
         return grid;
     }
-    var rect;
+
     
     enterPressed=function(event){//if user presses enter then start
         if (event.which == 13 || event.keyCode == 13) {
@@ -176,7 +176,7 @@
                 images: [preload.getResult("chickenRight"),preload.getResult("chickenStraight"),preload.getResult("chickenLeft"),preload.getResult("chickenStraight")],
                 frames: {width:200,height:150},
                 animations: {
-                    stand:0,
+                    stand:1,
                     runRight:[0,3,"front",4/fps],
                     back:[1,1,"back"],//was 1,1
                     speed:10
@@ -283,7 +283,7 @@
     var fps = 30;  //Frames Per Second. Lower this for analysis during development
     var player;
     var screenService; //Attach injectable screenService as a global lib
-    var SplashLogo,ZombieKongMenu,ZombieEye,runButton,grid,chickenStraight,chickenRight,chickenLeft,chickenSprite;
+    var SplashLogo,ZombieKongMenu,ZombieEye,runButton,grid,chickenStraight,chickenRight,chickenLeft,chickenSprite,rect;
     var runloop=false;
     var isMidJump=false;
 
