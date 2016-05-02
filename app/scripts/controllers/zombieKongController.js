@@ -145,6 +145,7 @@
         stage.addChild(optionsButton);
         stage.addChild(runButton);
         
+        document.addEventListener("keydown",jumpChicken)
         document.addEventListener("keydown",enterPressed);
                                 
          createjs.Tween.get(ZombieEye, { loop: true })//animate eyeball
