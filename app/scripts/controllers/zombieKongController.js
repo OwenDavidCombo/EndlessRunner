@@ -34,17 +34,26 @@
         if(runloop){
             grid.x = (worldx * .45) % (cWidth/8); // horizontal
             grid.y = (worldy * .45) % (cHeight/6);   // vertical
-            worldx+=-5;
+            rect.x=(worldx * .45) % (cWidth/8); 
+            worldx+=-7;
+            stage.update();
         }
     }
 
     var worldx=1;
     var worldy=1;
     runGame = function(){
+        pauseRendering=true;
         stage.removeAllChildren();
         canvas.style.backgroundColor = 'rgba(223, 44, 43, 0.8)';
+       
+        var graphics=new createjs.Graphics().beginBitmapFill(preload.getResult("background"),'repeat').drawRect(0,0,canvas.width,canvas.height);
+        back = new createjs.Shape(graphics);
+        back.x = 0;back.y = 0;
         grid = createBgGrid(8,6);
         runloop=true;
+        stage.addChild(back);
+        stage.addChild(rect);
         stage.addChild(grid);
         stage.addChild(player)
         document.addEventListener("keydown",jumpChicken)
@@ -77,7 +86,7 @@
         var gh = h/numY;
         // drawing the vertical line
         var verticalLine = new createjs.Graphics();
-        verticalLine.beginFill(createjs.Graphics.getRGB(101, 60, 176));
+        verticalLine.beginFill(createjs.Graphics.getRGB(0, 0, -0));
         verticalLine.drawRect(0,0,gw * 0.02,gh*(numY+2));
         var vs;
         // placing the vertical lines:
@@ -92,7 +101,7 @@
         }
         // drawing a horizontal line
         var horizontalLine = new createjs.Graphics();
-        horizontalLine.beginFill(createjs.Graphics.getRGB(101, 60, 176));
+        horizontalLine.beginFill(createjs.Graphics.getRGB(0, 0, 0));
         horizontalLine.drawRect(0,0,gw*(numX+1),gh * 0.02);
         var hs;
         // placing the horizontal lines:
@@ -105,11 +114,12 @@
             hs.y = c * gh;
             grid.addChild(hs);
         }
-
-        // return the grid-object
+        graphics = new createjs.Graphics().beginBitmapFill(preload.getResult("path")).drawRect(0, gh*4, gw*(numX+1), gh);
+        rect = new createjs.Shape(graphics);
         return grid;
     }
-
+    var rect;
+    
     enterPressed=function(event){//if user presses enter then start
         if (event.which == 13 || event.keyCode == 13) {
             document.removeEventListener("keydown",enterPressed)
@@ -167,7 +177,7 @@
                 frames: {width:200,height:150},
                 animations: {
                     stand:0,
-                    runRight:[0,3,"front",5/fps],
+                    runRight:[0,3,"front",4/fps],
                     back:[1,1,"back"],//was 1,1
                     speed:10
                 }
@@ -239,6 +249,14 @@
          {
             src:  "images/chickenStraight.png",
             id: "chickenStraight"
+         },
+         {
+            src:  "images/path.png",
+            id: "path"
+         },
+         {
+            src:  "images/background.png",
+            id: "background"
          }
         ];
     }
