@@ -330,7 +330,7 @@
     var fps = 30;  //Frames Per Second. Lower this for analysis during development
     var player;
     var screenService; //Attach injectable screenService as a global lib
-    var SplashLogo,ZombieKongMenu,ZombieEye,runButton,grid,chickenStraight,chickenRight,chickenLeft,chickenSprite,rect;
+    var SplashLogo,ZombieKongMenu,ZombieEye,runButton,optionsButton,grid,chickenStraight,chickenRight,chickenLeft,chickenSprite,rect;
     var runloop=false;
     var isMidJump=false;
 
