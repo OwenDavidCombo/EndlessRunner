@@ -1,0 +1,47 @@
+
+
+<html>
+  <head>
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+	<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+
+    <script>
+      function init() {
+        var stage = new createjs.Stage("demoCanvas");
+        
+		var container = new createjs.Container();
+		container.x=800;
+		
+		stage.addChild(container);
+		var containerWidth = 68;
+		var containerHeight = 69;
+
+
+		// Draw the contents. Note this is drawn with the registration point at the top left to illustrate the regX/regY at work.
+		circle = new Image();
+        circle.src="resizedBarrel.png";
+        circle = new createjs.Bitmap(circle);
+		container.addChild(circle);
+
+		// Center the shape
+		circle.x = containerWidth/2;
+		circle.y = containerHeight/2;
+
+		// Change the registration point to the center
+		circle.regX = 34; //25 is half of the width on the shape that we specified.
+		circle.regY = 34.5;
+
+		// Tween the shape
+		createjs.Tween.get(circle, {loop: true}).to({rotation:-360*4}, 5000, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(container, {loop: true}).to({x: -400}, 5000, createjs.Ease.getPowInOut(2));		
+    
+        createjs.Ticker.setFPS(60);
+        createjs.Ticker.addEventListener("tick", stage);
+      }
+    </script>
+  </head>
+  <body onload="init();">
+    <canvas id="demoCanvas" width="1000" height="500"></canvas>
+  </body>
+</html>
+
