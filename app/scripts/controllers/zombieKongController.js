@@ -86,7 +86,9 @@
         var gh = h/numY+10;
         // drawing the vertical line
         var verticalLine = new createjs.Graphics();
-       
+        verticalLine.beginFill(createjs.Graphics.getRGB(0, 0, -0));
+        verticalLine.drawRect(0,0,gw * 0.02,gh*(numY+3));
+        
         var vs;
         // placing the vertical lines:
         // we're placing 1 more than requested
@@ -100,6 +102,9 @@
         }
         // drawing a horizontal line
         var horizontalLine = new createjs.Graphics();
+        horizontalLine.beginFill(createjs.Graphics.getRGB(0, 0, 0));
+        horizontalLine.drawRect(0,0,gw*(numX+3),gh * 0.02);
+        
         
         var hs;
         // placing the horizontal lines:
