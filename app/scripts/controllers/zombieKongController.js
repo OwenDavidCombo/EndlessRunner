@@ -66,7 +66,7 @@
                player.gotoAndPlay("stand")
                createjs.Tween.get(player, { loop: false })
                 .to({ y:player.getTransformedBounds().y-100}, 600, createjs.Ease.getPowOut(4))
-                .to({ y:(cHeight*(6/5))-player.getBounds().height}, 600, createjs.Ease.getPowIn(4))
+                .to({ y:(cHeight*(4/5))-player.getBounds().height}, 600, createjs.Ease.getPowIn(4))
                .call(function(){
                     player.gotoAndPlay("runRight")
                     isMidJump=false;
@@ -117,7 +117,7 @@
             hs.y = c * gh;
             grid.addChild(hs);
         }
-        graphics = new createjs.Graphics().beginBitmapFill(preload.getResult("path")).drawRect(0, gh*6, gw*(numX+3), gh);//create the path
+        graphics = new createjs.Graphics().beginBitmapFill(preload.getResult("path")).drawRect(0, gh*4, gw*(numX+1), gh);//create the path
         rect = new createjs.Shape(graphics);
         return grid;
     }
@@ -217,7 +217,7 @@
             player = new createjs.Sprite(chickenSprite, "runRight");
             player.frequency=0.1;
             player.x=30;
-            player.y=(cHeight*(6/5))-player.getBounds().height;
+            player.y=(cHeight*(4/5))-player.getBounds().height;
     }
     
     handleFileLoad = function(event){
