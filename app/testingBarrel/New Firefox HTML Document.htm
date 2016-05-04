@@ -7,10 +7,48 @@
 
     <script>
       function init() {
+			  			  var mapArray = [
+				[1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1],
+				[1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1],
+				[1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1],
+				[1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1],
+				[1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1],
+				[1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1],
+				[1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1],
+				[1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1],
+				[1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1],
+				[0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0],
+				[0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0],
+				[0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0],
+				[0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0,0, 0, 0, 0 ,0],
+				[1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1],
+				[1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1,1, 1, 1, 1 ,1]
+			];
+
+			function drawMap() {
+				background = new createjs.Container();      
+				for (var y = 0; y < mapArray.length; y++) {
+					for (var x = 0; x < mapArray[y].length; x++) {
+						if (parseInt(mapArray[y][x]) == 0) {
+							var tile = new createjs.Bitmap('Cliffs.jpg');
+						}
+						if (parseInt(mapArray[y][x]) == 1) {
+							var tile = new createjs.Bitmap('Marble.jpg'); 
+						}
+						tile.x = x * 28;
+						tile.y = y * 28;
+						background.addChild(tile);
+					}
+				}
+				stage.addChild(background);     
+			}
+	  
         var stage = new createjs.Stage("demoCanvas");
-        
+        drawMap();
+		
 		var container = new createjs.Container();
 		container.x=800;
+		container.y=300;
 		
 		stage.addChild(container);
 		var containerWidth = 68;
@@ -41,7 +79,7 @@
     </script>
   </head>
   <body onload="init();">
-    <canvas id="demoCanvas" width="1000" height="500"></canvas>
+    <canvas id="demoCanvas" width="1000" height="1000"></canvas>
   </body>
 </html>
 
