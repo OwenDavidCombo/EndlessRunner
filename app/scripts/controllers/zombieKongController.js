@@ -93,24 +93,19 @@
         
         // Add barrel collision detection
          createjs.Ticker.addEventListener("tick", collisiondetection);
-        if(getCookie("lives")==""){
-            //draw text
-             var txt = new createjs.Text();
-            txt.font = "bold 96px Dorsa";
-            txt.color = "#000000";
-            txt.text = 3;
-            stage.addChild(txt);
-            setCookie("lives","3","30");}
-        else{
-            
-            var txt = new createjs.Text();
-            txt.font = "bold 96px Dorsa";
-            txt.color = "#000000";
-            txt.text = parseInt(getCookie("lives",10));
-            stage.addChild(txt);
-        }
+
+             
+            var lifeimage = new Array();
+            for (i=0; i<parseInt(getCookie("lives"),10); i=i+1)
+                {
+                    lifeimage[i]  = new createjs.Bitmap(preload.getResult("heart"));
+                    lifeimage[i].x = i*60+10;
+                    lifeimage[i].y = 10;
+                   stage.addChild(lifeimage[i]);
+
+                }
         
-      
+       
     }
     
     
@@ -411,9 +406,14 @@
             id: "background"
          },
         {
+            src: "images/heart.png",
+            id: "heart"
+        },
+        {
             src:  "images/resizedBarrel.png",
             id: "barrel"
          }
+                    
         ];
     }
        
