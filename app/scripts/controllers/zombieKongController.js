@@ -21,13 +21,15 @@
        stage.enableMouseOver(10);
        createjs.Ticker.setFPS(fps); //set our frameRate;
        createjs.Ticker.addEventListener("tick", render);//call our render loop on each tick
+       
        setupManifest();//set up our assets array
        startPreload();//init preload queue
-       
+     
        canvas.style.backgroundColor = 'rgba(0, 0, 0, 1)';
     }
     
     render = function(event){//render loop call stage.update when we want to show changes.
+       
         if(!pauseRendering){ 
             stage.update();
         }
@@ -56,8 +58,38 @@
         stage.addChild(rect);
         stage.addChild(grid);
         stage.addChild(player)
-        document.addEventListener("keydown",jumpChicken)
+        document.addEventListener("keydown",jumpChicken);
+        
+        var container = new createjs.Container();
+		container.x=1200;
+		container.y=410;
+		
+		stage.addChild(container);
+		var containerWidth = 68;
+		var containerHeight = 69;
+
+
+		// Draw the contents. Note this is drawn with the registration point at the top left to illustrate the regX/regY at work.
+		
+        barrel = new createjs.Bitmap(preload.getResult("barrel"));
+		container.addChild(barrel);
+
+		// Center the shape
+		barrel.x = containerWidth/2;
+		barrel.y = containerHeight/2;
+
+		// Change the registration point to the center
+		barrel.regX = 34; //25 is half of the width on the shape that we specified.
+		barrel.regY = 34.5;
+
+		// Tween the shape
+		createjs.Tween.get(barrel, {loop: true}).to({rotation:-360*4}, 5000, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(container, {loop: true}).to({x: -400}, 5000, createjs.Ease.getPowInOut(2));		
+         createjs.Ticker.addEventListener("tick", collisiondetection);
+         
     }
+    
+    
     
     jumpChicken=function(){//jump the chicken
      if (event.which == 38 || event.keyCode == 38) {
@@ -263,7 +295,16 @@
          canvas.removeEventListener("click",skipIntro);
          runMenuScreen();
     }
-      
+    
+    function collisiondetection(event){
+       
+       var pt = player.localToLocal(100,100,barrel);
+        console.log(pt.x, pt.y);
+			if (barrel.hitTest(pt.x, pt.y)) {stage.removeAllChildren();runMenuScreen();createjs.Ticker.removeEventListener("tick", collisiondetection);}
+
+    }
+    
+    
     function setupManifest() {//code from http://code.tutsplus.com/tutorials/using-createjs-preloadjs-soundjs-and-tweenjs--net-36292
         manifest = [{
             src:  "images/SplashLogoFull.png",
@@ -304,6 +345,10 @@
          {
             src:  "images/background.png",
             id: "background"
+         },
+        {
+            src:  "images/resizedBarrel.png",
+            id: "barrel"
          }
         ];
     }
@@ -330,7 +375,7 @@
     var fps = 30;  //Frames Per Second. Lower this for analysis during development
     var player;
     var screenService; //Attach injectable screenService as a global lib
-    var SplashLogo,ZombieKongMenu,ZombieEye,runButton,optionsButton,grid,chickenStraight,chickenRight,chickenLeft,chickenSprite,rect;
+    var SplashLogo,ZombieKongMenu,ZombieEye,runButton,optionsButton,grid,chickenStraight,chickenRight,chickenLeft,chickenSprite,rect, barrel;
     var runloop=false;
     var isMidJump=false;
 
