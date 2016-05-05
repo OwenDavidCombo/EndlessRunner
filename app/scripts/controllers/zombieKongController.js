@@ -26,6 +26,8 @@
        startPreload();//init preload queue
      
        canvas.style.backgroundColor = 'rgba(0, 0, 0, 1)';
+        
+        
     }
     
     render = function(event){//render loop call stage.update when we want to show changes.
@@ -84,9 +86,31 @@
 
 		// Tween the shape
 		createjs.Tween.get(barrel, {loop: true}).to({rotation:-360*4}, 5000, createjs.Ease.getPowInOut(2));
-		createjs.Tween.get(container, {loop: true}).to({x: -400}, 5000, createjs.Ease.getPowInOut(2));		
-         createjs.Ticker.addEventListener("tick", collisiondetection);
+		createjs.Tween.get(container, {loop: true}).to({x: -400}, 5000, createjs.Ease.getPowInOut(2));
+        
+        
          
+        
+        // Add barrel collision detection
+         createjs.Ticker.addEventListener("tick", collisiondetection);
+        if(getCookie("lives")==""){
+            //draw text
+             var txt = new createjs.Text();
+            txt.font = "bold 96px Dorsa";
+            txt.color = "#000000";
+            txt.text = 3;
+            stage.addChild(txt);
+            setCookie("lives","3","30");}
+        else{
+            
+            var txt = new createjs.Text();
+            txt.font = "bold 96px Dorsa";
+            txt.color = "#000000";
+            txt.text = parseInt(getCookie("lives",10));
+            stage.addChild(txt);
+        }
+        
+      
     }
     
     
@@ -164,6 +188,7 @@
     
     
     runMenuScreen=function(){
+        setCookie("lives","3","30");
         stage.removeChild(SplashLogo);
         stage.update();
         canvas.style.backgroundColor = 'rgba(223, 244, 215, 1)';
@@ -296,12 +321,51 @@
          runMenuScreen();
     }
     
+    var setCookie = function setCookie(cname, cvalue, exdays) {
+          var d = new Date(), expires = "";
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        expires = "expires=" + d.toGMTString();
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+    
+    var getCookie = function getCookie(cname) {
+            var name = cname + "=", ca = document.cookie.split(';'), c = "", i = "";
+        for (i = 0; i < ca.length; i = i + 1) {
+            c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    
+    
     function collisiondetection(event){
        
+        
        var pt = player.localToLocal(100,100,barrel);
-        console.log(pt.x, pt.y);
-			if (barrel.hitTest(pt.x, pt.y)) {stage.removeAllChildren();runMenuScreen();createjs.Ticker.removeEventListener("tick", collisiondetection);}
-
+        
+			if (barrel.hitTest(pt.x, pt.y)) {
+                lives = parseInt(getCookie("lives"),10);
+                if(lives==0){
+                    stage.removeAllChildren();
+                    runMenuScreen();
+                    createjs.Ticker.removeEventListener("tick", collisiondetection);
+                }
+                else
+                {
+                    lives = lives - 1;
+                    setCookie("lives",lives,"30");
+                    stage.removeAllChildren();                    
+                    runGame();
+                    stage.update();
+                    
+                }
+            }
+       
     }
     
     

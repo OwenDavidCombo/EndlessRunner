@@ -12,7 +12,7 @@
         this.clicksound = clicksound;
         this.setCookie = setCookie;
         this.checkVolume = checkVolume;
-       
+        this.getCookie = getCookie;
     }
     
     
