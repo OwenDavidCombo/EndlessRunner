@@ -85,27 +85,39 @@
 		barrel.regY = 34.5;
 
 		// Tween the shape
-		createjs.Tween.get(barrel, {loop: true}).to({rotation:-360*4}, 5000, createjs.Ease.getPowInOut(2));
-		createjs.Tween.get(container, {loop: true}).to({x: -400}, 5000, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(barrel, {loop: true}).to({rotation:-360*4}, parseInt(getCookie("speed"),10), createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(container, {loop: true}).to({x: -400}, parseInt(getCookie("speed"),10), createjs.Ease.getPowInOut(2));
         
         
          
         
         // Add barrel collision detection
          createjs.Ticker.addEventListener("tick", collisiondetection);
+        
+        //keep track of score
+         createjs.Ticker.addEventListener("tick", score);
 
-             
+            
             var lifeimage = new Array();
             for (i=0; i<parseInt(getCookie("lives"),10); i=i+1)
                 {
                     lifeimage[i]  = new createjs.Bitmap(preload.getResult("heart"));
                     lifeimage[i].x = i*60+10;
                     lifeimage[i].y = 10;
-                   stage.addChild(lifeimage[i]);
+                    stage.addChild(lifeimage[i]);
 
                 }
         
-       
+        var graphics = new createjs.Graphics().beginFill("#ffffff").drawRoundRect(canvas.width-230, 10, 200, 30,10);
+        var shape = new createjs.Shape(graphics);
+        var txt = new createjs.Text();
+         txt.font = "bold 25px Dorsa";
+        txt.color = "#000000";
+        txt.x=canvas.width-220;
+        txt.y=10;
+        txt.text = parseInt(getCookie("score"),10);
+        
+        stage.addChild(shape,txt);
     }
     
     
@@ -183,7 +195,10 @@
     
     
     runMenuScreen=function(){
+        setCookie("speed","5000","30");
         setCookie("lives","3","30");
+        setCookie("score","0","30");
+        
         stage.removeChild(SplashLogo);
         stage.update();
         canvas.style.backgroundColor = 'rgba(223, 244, 215, 1)';
@@ -337,6 +352,38 @@
         return "";
     }
     
+    function score(){
+        var score = parseInt(getCookie("score"),10);
+        score = score + 1;
+        setCookie("score",score,"30");
+        stage.removeChild(txt);
+        if(score%100===0){
+            if(score%1000===0){
+                setCookie("lives",parseInt(getCookie("lives"),10)+1,"30");
+                setCookie("speed",parseInt(getCookie("speed")/2,10)+1,"30");
+                runGame();
+            }
+            else
+            {
+                runGame();
+            }
+        
+        }
+        else{
+        var graphics = new createjs.Graphics().beginFill("#ffffff").drawRoundRect(canvas.width-230, 10, 200, 30,10);
+        var shape = new createjs.Shape(graphics);
+        var txt = new createjs.Text();
+         txt.font = "bold 25px Dorsa";
+        txt.color = "#000000";
+        txt.x=canvas.width-220;
+        txt.y=10;
+        txt.text = parseInt(getCookie("score"),10);        
+        stage.addChild(shape,txt);
+        stage.update();
+        }
+       
+        
+    }
     
     function collisiondetection(event){
        
@@ -347,19 +394,24 @@
                 lives = parseInt(getCookie("lives"),10);
                 if(lives==0){
                     stage.removeAllChildren();
-                    runMenuScreen();
+                    createjs.Ticker.removeEventListener("tick", score);
                     createjs.Ticker.removeEventListener("tick", collisiondetection);
+                    runMenuScreen();
+                    
+                    
                 }
                 else
                 {
                     lives = lives - 1;
                     setCookie("lives",lives,"30");
+                    setCookie("score","0","30");
                     stage.removeAllChildren();                    
                     runGame();
                     stage.update();
                     
                 }
             }
+
        
     }
     
