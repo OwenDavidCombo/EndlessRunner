@@ -59,10 +59,10 @@
         stage.addChild(back);
         stage.addChild(rect);
         stage.addChild(grid);
-        stage.addChild(player)
+        stage.addChild(player);
         document.addEventListener("keydown",jumpChicken);
         
-        var container = new createjs.Container();
+        container = new createjs.Container();
 		container.x=1200;
 		container.y=410;
 		
@@ -85,8 +85,8 @@
 		barrel.regY = 34.5;
 
 		// Tween the shape
-		createjs.Tween.get(barrel, {loop: true}).to({rotation:-360*4}, parseInt(getCookie("speed"),10), createjs.Ease.getPowInOut(2));
-		createjs.Tween.get(container, {loop: true}).to({x: -400}, parseInt(getCookie("speed"),10), createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(barrel, {loop: true}).to({rotation:-360*4}, speed, createjs.Ease.getPowInOut(2));
+		createjs.Tween.get(container, {loop: true}).to({x: -400}, speed, createjs.Ease.getPowInOut(2));
         
         
          
@@ -99,7 +99,7 @@
 
             
             var lifeimage = new Array();
-            for (i=0; i<parseInt(getCookie("lives"),10); i=i+1)
+            for (i=0; i<lives; i=i+1)
                 {
                     lifeimage[i]  = new createjs.Bitmap(preload.getResult("heart"));
                     lifeimage[i].x = i*60+10;
@@ -108,16 +108,17 @@
 
                 }
         
-        var graphics = new createjs.Graphics().beginFill("#ffffff").drawRoundRect(canvas.width-230, 10, 200, 30,10);
-        var shape = new createjs.Shape(graphics);
-        var txt = new createjs.Text();
+     
+       txt = new createjs.Text();
          txt.font = "bold 25px Dorsa";
         txt.color = "#000000";
         txt.x=canvas.width-220;
         txt.y=10;
-        txt.text = parseInt(getCookie("score"),10);
+        txt.text = score;
         
-        stage.addChild(shape,txt);
+        stage.addChild(txt);
+        score=0;
+       
     }
     
     
@@ -195,9 +196,8 @@
     
     
     runMenuScreen=function(){
-        setCookie("speed","5000","30");
-        setCookie("lives","3","30");
-        setCookie("score","0","30");
+        speed = 5000;        
+        lives = 3;
         
         stage.removeChild(SplashLogo);
         stage.update();
@@ -331,88 +331,81 @@
          runMenuScreen();
     }
     
-    var setCookie = function setCookie(cname, cvalue, exdays) {
-          var d = new Date(), expires = "";
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        expires = "expires=" + d.toGMTString();
-        document.cookie = cname + "=" + cvalue + "; " + expires;
-    }
-    
-    var getCookie = function getCookie(cname) {
-            var name = cname + "=", ca = document.cookie.split(';'), c = "", i = "";
-        for (i = 0; i < ca.length; i = i + 1) {
-            c = ca[i];
-            while (c.charAt(0) === ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) === 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
-    
-    function score(){
-        var score = parseInt(getCookie("score"),10);
-        score = score + 1;
-        setCookie("score",score,"30");
+    function score(event){
+        score = score + 1;       
         stage.removeChild(txt);
-        if(score%100===0){
-            if(score%1000===0){
-                setCookie("lives",parseInt(getCookie("lives"),10)+1,"30");
-                setCookie("speed",parseInt(getCookie("speed")/2,10)+1,"30");
-                runGame();
+        if(score % 1000 === 0){
+            lives = lives + 1;
+            speed = (speed/10) * 9;
+            var lifeimage = new Array();
+            for (i=0; i<lives; i=i+1){
+                    lifeimage[i]  = new createjs.Bitmap(preload.getResult("heart"));
+                    lifeimage[i].x = i*60+10;
+                    lifeimage[i].y = 10;
+                    stage.addChild(lifeimage[i]);
             }
-            else
-            {
-                runGame();
-            }
-        
+            
+            stage.removeChild(container);
+            stage.removeChild(barrel);
+            
+            container = new createjs.Container();
+            container.x=1200;
+            container.y=410;
+
+            stage.addChild(container);
+            var containerWidth = 68;
+            var containerHeight = 69;
+
+
+            // Draw the contents. Note this is drawn with the registration point at the top left to illustrate the regX/regY at work.
+
+            barrel = new createjs.Bitmap(preload.getResult("barrel"));
+            container.addChild(barrel);
+
+            // Center the shape
+            barrel.x = containerWidth/2;
+            barrel.y = containerHeight/2;
+
+            // Change the registration point to the center
+            barrel.regX = 34; //25 is half of the width on the shape that we specified.
+            barrel.regY = 34.5;
+
+            // Tween the shape
+            createjs.Tween.get(barrel, {loop: true}).to({rotation:-360*4}, speed, createjs.Ease.getPowInOut(2));
+            createjs.Tween.get(container, {loop: true}).to({x: -400}, speed, createjs.Ease.getPowInOut(2));
+           
         }
-        else{
-        var graphics = new createjs.Graphics().beginFill("#ffffff").drawRoundRect(canvas.width-230, 10, 200, 30,10);
-        var shape = new createjs.Shape(graphics);
-        var txt = new createjs.Text();
-         txt.font = "bold 25px Dorsa";
+
+        txt = new createjs.Text();
+        txt.font = "bold 25px Dorsa";
         txt.color = "#000000";
-        txt.x=canvas.width-220;
-        txt.y=10;
-        txt.text = parseInt(getCookie("score"),10);        
-        stage.addChild(shape,txt);
+        txt.x = canvas.width-220;
+        txt.y = 10;
+        txt.text = score;        
+        stage.addChild(txt);
         stage.update();
-        }
-       
-        
+            
     }
     
     function collisiondetection(event){
-       
-        
-       var pt = player.localToLocal(100,100,barrel);
-        
-			if (barrel.hitTest(pt.x, pt.y)) {
-                lives = parseInt(getCookie("lives"),10);
+        var pt = player.localToLocal(100,100,barrel);
+        if (barrel.hitTest(pt.x, pt.y)) {
+                lives = lives;
                 if(lives==0){
                     stage.removeAllChildren();
                     createjs.Ticker.removeEventListener("tick", score);
                     createjs.Ticker.removeEventListener("tick", collisiondetection);
                     runMenuScreen();
-                    
-                    
                 }
                 else
                 {
                     lives = lives - 1;
-                    setCookie("lives",lives,"30");
-                    setCookie("score","0","30");
+                    score = 0;
                     stage.removeAllChildren();                    
                     runGame();
                     stage.update();
-                    
                 }
-            }
-
-       
+        }
     }
     
     
@@ -491,7 +484,7 @@
     var fps = 30;  //Frames Per Second. Lower this for analysis during development
     var player;
     var screenService; //Attach injectable screenService as a global lib
-    var SplashLogo,ZombieKongMenu,ZombieEye,runButton,optionsButton,grid,chickenStraight,chickenRight,chickenLeft,chickenSprite,rect, barrel;
+    var SplashLogo,ZombieKongMenu,ZombieEye,runButton,optionsButton,grid,chickenStraight,chickenRight,chickenLeft,chickenSprite,rect, container,txt ,barrel, score, lives, speed;
     var runloop=false;
     var isMidJump=false;
 
